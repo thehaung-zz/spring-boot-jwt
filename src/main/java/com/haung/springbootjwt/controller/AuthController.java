@@ -46,15 +46,14 @@ public class AuthController {
                 .matches(user.getPassword(), userPrincipal.getPassword())) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("Account or password invalid!");
+                    .body("Account or password is not valid!");
         }
-
         Token token = new Token();
         token.setToken(jwtUtil.generateToken(userPrincipal));
-
         token.setTokenExpDate(jwtUtil.generateExpirationDate());
         token.setCreatedBy(userPrincipal.getUserId());
         tokenService.createToken(token);
+
         return ResponseEntity.ok(token.getToken());
     }
 }
